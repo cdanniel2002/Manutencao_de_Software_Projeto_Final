@@ -26,8 +26,4 @@ RUN chmod +x entrypoint.sh
 
 WORKDIR /app/core
 
-COPY ../entrypoint.sh .
-
-RUN chmod +x ../entrypoint.sh
-
 ENTRYPOINT ["../entrypoint.sh"]

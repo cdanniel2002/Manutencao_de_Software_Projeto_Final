@@ -74,7 +74,7 @@ const NavBarMenu = ({ active }) => {
         </Link>
         <Link href="/support">
           <NavItem className={ActiveMenu("support")}>
-            <Image src="/Task.svg" alt="Logo" width={24} height={24} />
+            <Image src="/Support.svg" alt="Suporte" width={24} height={24} />
             <span>Suporte</span>
           </NavItem>
         </Link>

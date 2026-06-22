@@ -340,8 +340,8 @@ export const AuthProvider = ({ children }) => {
   const fetchLogin = useCallback(
     (email, password) => {
       setLoadingAuth(true);
-      localStorage.setItem("token", null);
-      localStorage.setItem("tokenReflesh", null);
+      localStorage.removeItem("token");
+      localStorage.removeItem("tokenReflesh");
 
       api
         .post("auth/jwt/create/", { email, password })
