@@ -1,0 +1,40 @@
+# Ambientes Python
+.venv
+venv
+env
+ENV
+
+# Caches / artefatos
+__pycache__
+*.py[cod]
+*$py.class
+.pytest_cache
+.mypy_cache
+.coverage
+.coverage.*
+htmlcov
+coverage.xml
+
+# Banco e mídia local
+**/db.sqlite3
+core/media
+core/staticfiles
+
+# Segredos e ambiente local
+.env
+**/.env
+
+# Git / editor / SO
+.git
+.gitignore
+.vscode
+.idea
+*.log
+.DS_Store
+
+# Certificados locais do apache
+apache/ssl/*.crt
+apache/ssl/*.key
+apache/ssl/*.pem
+apache/ssl/*.p12
+apache/ssl/*.pfx

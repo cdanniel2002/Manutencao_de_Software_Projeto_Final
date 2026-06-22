@@ -12,11 +12,15 @@ services:
       - "5432:5432"
 
   web:
-    build: .
+    # Imagem publicada pelo CI/CD no GHCR (.github/workflows/ci-cd.yml).
+    # No servidor: `docker compose pull && docker compose up -d`.
+    image: ghcr.io/${IMAGE_OWNER:-cdanniel2002}/finansee-backend:${IMAGE_TAG:-latest}
+    # Para buildar localmente em vez de puxar do GHCR, descomente o build
+    # abaixo e rode `docker compose up -d --build`:
+    # build: .
     restart: unless-stopped
     command: gunicorn --bind 0.0.0.0:8000 --workers 3 config.wsgi
     volumes:
-      - .:/app
       - static_volume:/app/core/staticfiles
     env_file:
       - .env
