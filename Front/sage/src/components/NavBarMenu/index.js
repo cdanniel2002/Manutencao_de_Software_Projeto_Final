@@ -72,6 +72,12 @@ const NavBarMenu = ({ active }) => {
             <span>Categorias</span>
           </NavItem>
         </Link>
+        <Link href="/support">
+          <NavItem className={ActiveMenu("support")}>
+            <Image src="/Task.svg" alt="Logo" width={24} height={24} />
+            <span>Suporte</span>
+          </NavItem>
+        </Link>
       </NavMenu>
 
       <UserProfile>
