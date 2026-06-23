@@ -157,7 +157,9 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
 # Sem credenciais SMTP configuradas, usa o backend de "console" (apenas imprime
 # o e-mail no log) para nao derrubar o deploy. Defina EMAIL_HOST_USER e
 # EMAIL_HOST_PASSWORD para enviar e-mails de verdade.
-if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
+EMAIL_CONFIGURED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
+
+if EMAIL_CONFIGURED:
     EMAIL_BACKEND = config(
         'EMAIL_BACKEND',
         default='django.core.mail.backends.smtp.EmailBackend')
@@ -204,8 +206,11 @@ SPECTACULAR_SETTINGS = {
 
 
 DJOSER = {
-    'SEND_ACTIVATION_EMAIL': True,
-    'SEND_CONFIRMATION_EMAIL': True,
+    # Ativacao por e-mail so faz sentido se houver SMTP configurado. Sem e-mail,
+    # o usuario nasce ativo e consegue logar logo apos o cadastro. Ao definir
+    # EMAIL_HOST_USER/EMAIL_HOST_PASSWORD, a ativacao por e-mail volta a valer.
+    'SEND_ACTIVATION_EMAIL': EMAIL_CONFIGURED,
+    'SEND_CONFIRMATION_EMAIL': EMAIL_CONFIGURED,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'ACTIVATION_URL': 'activate/{uid}/{token}/',
