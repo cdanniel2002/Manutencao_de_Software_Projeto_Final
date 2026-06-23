@@ -11,11 +11,13 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals"),
-  // Adicionamos as regras de exceção aqui em baixo
+  
   {
+    files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
     rules: {
       "react-hooks/exhaustive-deps": "off",
-      "react/no-unescaped-entities": "off"
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-unescaped-entities": "off"
     }
   }
 ];
