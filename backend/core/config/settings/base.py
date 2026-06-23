@@ -211,11 +211,12 @@ SPECTACULAR_SETTINGS = {
 
 
 DJOSER = {
-    # Ativacao por e-mail so faz sentido se houver SMTP configurado. Sem e-mail,
-    # o usuario nasce ativo e consegue logar logo apos o cadastro. Ao definir
-    # EMAIL_HOST_USER/EMAIL_HOST_PASSWORD, a ativacao por e-mail volta a valer.
-    'SEND_ACTIVATION_EMAIL': EMAIL_CONFIGURED,
-    'SEND_CONFIRMATION_EMAIL': EMAIL_CONFIGURED,
+    # O frontend nao tem pagina de ativacao (/activate/...), entao a conta nasce
+    # ativa e o login funciona logo apos o cadastro. Mantido desligado por padrao
+    # e independente do SMTP (configurar e-mail para o suporte nao quebra o login).
+    # Para ligar a ativacao no futuro, defina SEND_ACTIVATION_EMAIL=True no ambiente.
+    'SEND_ACTIVATION_EMAIL': config('SEND_ACTIVATION_EMAIL', default=False, cast=bool),
+    'SEND_CONFIRMATION_EMAIL': config('SEND_CONFIRMATION_EMAIL', default=False, cast=bool),
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'ACTIVATION_URL': 'activate/{uid}/{token}/',
