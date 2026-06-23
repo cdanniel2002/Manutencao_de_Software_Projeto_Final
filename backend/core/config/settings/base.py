@@ -107,10 +107,26 @@ BACKEND_URL = config('BACKEND_URL')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-if config('USE_POSTGRESQL', cast=bool, default=False):
+# Prioridade de configuracao do banco:
+# 1) DATABASE_URL (formato usado pelo Render/Heroku: postgres://user:pass@host:port/db)
+# 2) USE_POSTGRESQL=True + variaveis DB_* separadas (docker-compose local)
+# 3) SQLite (desenvolvimento)
+DATABASE_URL = config('DATABASE_URL', default='')
+
+if DATABASE_URL:
+    import dj_database_url
+
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=config('DB_SSL_REQUIRE', cast=bool, default=True),
+        )
+    }
+elif config('USE_POSTGRESQL', cast=bool, default=False):
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': config('DB_NAME'),
             'USER': config('DB_USER'),
             'PASSWORD': config('DB_PASSWORD'),
