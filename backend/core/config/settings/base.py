@@ -102,7 +102,11 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'templates/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-BACKEND_URL = config('BACKEND_URL')
+# Em producao no Render, se BACKEND_URL nao for definido, usa a URL publica que
+# o proprio Render injeta automaticamente (RENDER_EXTERNAL_URL).
+BACKEND_URL = config(
+    'BACKEND_URL',
+    default=os.environ.get('RENDER_EXTERNAL_URL', 'http://localhost:8000'))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

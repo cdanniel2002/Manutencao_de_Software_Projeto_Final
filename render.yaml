@@ -1,0 +1,69 @@
+# Blueprint do Render para o backend FinanSee (Django).
+# Cria automaticamente o banco PostgreSQL + o web service Docker e conecta os dois.
+#
+# Como usar:
+#   1. No Render: New > Blueprint > selecione este repositorio.
+#   2. O Render le este arquivo e cria os dois recursos.
+#   3. Preencha apenas as variaveis marcadas com "sync: false" (as que dependem
+#      da URL do front na Vercel e das credenciais de e-mail).
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+databases:
+  - name: finansee-db
+    plan: free
+    databaseName: finansee
+    user: finansee
+    region: oregon            # troque para virginia/ohio se quiser menor latencia no Brasil
+
+services:
+  - type: web
+    name: finansee-backend
+    runtime: docker
+    plan: free
+    region: oregon            # IMPORTANTE: use a MESMA regiao do banco (conexao interna)
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    autoDeploy: true          # redeploy automatico a cada push na main
+    envVars:
+      # --- Preenchidas automaticamente pelo Render --------------------------
+      - key: DATABASE_URL
+        fromDatabase:
+          name: finansee-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true   # o Render gera uma chave segura e aleatoria
+      - key: ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: finansee-backend
+          property: host       # ex.: finansee-backend.onrender.com
+      # BACKEND_URL nao precisa: o codigo usa RENDER_EXTERNAL_URL automaticamente.
+
+      # --- Valores fixos ----------------------------------------------------
+      - key: DEBUG
+        value: "False"
+      - key: DJOSER_EMAIL_FRONTEND_PROTOCOL
+        value: https
+      - key: DJOSER_EMAIL_FRONTEND_SITE_NAME
+        value: FinanSee
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.smtp.EmailBackend
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+
+      # --- VOCE PRECISA PREENCHER no painel do Render (dependem do front/e-mail) ---
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false            # ex.: https://seu-front.vercel.app
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false            # ex.: https://seu-front.vercel.app, https://finansee-backend.onrender.com
+      - key: DJOSER_EMAIL_FRONTEND_DOMAIN
+        sync: false            # ex.: seu-front.vercel.app
+      - key: EMAIL_HOST_USER
+        sync: false            # seu e-mail (remetente)
+      - key: EMAIL_HOST_PASSWORD
+        sync: false            # senha de app do e-mail
