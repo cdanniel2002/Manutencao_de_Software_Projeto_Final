@@ -162,7 +162,7 @@ EMAIL_CONFIGURED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
 # E-mail da equipe que recebe as solicitacoes de suporte/feedback dos usuarios.
 SUPPORT_EMAIL = config(
     'SUPPORT_EMAIL',
-    default='carlos.silva87238@alunos.ufersa.edu.br')
+    default='carlosdanniel2002@outlook.com')
 
 if EMAIL_CONFIGURED:
     EMAIL_BACKEND = config(
