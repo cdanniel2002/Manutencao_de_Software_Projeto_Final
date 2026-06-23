@@ -6,7 +6,7 @@ from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS')
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -147,14 +147,22 @@ else:
     }
 
 
-EMAIL_BACKEND = config(
-    'EMAIL_BACKEND', default="django.core.mail.backends.console.EmailBackend")
-EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
+
+# Sem credenciais SMTP configuradas, usa o backend de "console" (apenas imprime
+# o e-mail no log) para nao derrubar o deploy. Defina EMAIL_HOST_USER e
+# EMAIL_HOST_PASSWORD para enviar e-mails de verdade.
+if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
+    EMAIL_BACKEND = config(
+        'EMAIL_BACKEND',
+        default='django.core.mail.backends.smtp.EmailBackend')
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 REST_FRAMEWORK = {
@@ -205,9 +213,9 @@ DJOSER = {
     'USERNAME_RESET_CONFIRM_URL': 'reset_username/{uid}/{token}/',
     'LOGOUT_ON_PASSWORD_CHANGE': False,
     'LOGIN_FIELD': 'email',
-    'EMAIL_FRONTEND_PROTOCOL': config('DJOSER_EMAIL_FRONTEND_PROTOCOL'),
-    'EMAIL_FRONTEND_DOMAIN': config('DJOSER_EMAIL_FRONTEND_DOMAIN'),
-    'EMAIL_FRONTEND_SITE_NAME': config('DJOSER_EMAIL_FRONTEND_SITE_NAME'),
+    'EMAIL_FRONTEND_PROTOCOL': config('DJOSER_EMAIL_FRONTEND_PROTOCOL', default='https'),
+    'EMAIL_FRONTEND_DOMAIN': config('DJOSER_EMAIL_FRONTEND_DOMAIN', default='localhost:3000'),
+    'EMAIL_FRONTEND_SITE_NAME': config('DJOSER_EMAIL_FRONTEND_SITE_NAME', default='FinanSee'),
     'USER_CREATE_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'USERNAME_RESET_CONFIRM_RETYPE': True,
