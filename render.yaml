@@ -33,12 +33,9 @@ services:
           property: connectionString
       - key: SECRET_KEY
         generateValue: true   # o Render gera uma chave segura e aleatoria
-      - key: ALLOWED_HOSTS
-        fromService:
-          type: web
-          name: finansee-backend
-          property: host       # ex.: finansee-backend.onrender.com
-      # BACKEND_URL nao precisa: o codigo usa RENDER_EXTERNAL_URL automaticamente.
+      # ALLOWED_HOSTS e BACKEND_URL nao precisam ser definidos aqui: o codigo usa
+      # RENDER_EXTERNAL_HOSTNAME / RENDER_EXTERNAL_URL (injetados pelo Render)
+      # automaticamente em config/settings/production.py e base.py.
 
       # --- Valores fixos ----------------------------------------------------
       - key: DEBUG
