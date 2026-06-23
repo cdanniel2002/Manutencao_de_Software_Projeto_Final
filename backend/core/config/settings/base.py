@@ -159,6 +159,11 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
 # EMAIL_HOST_PASSWORD para enviar e-mails de verdade.
 EMAIL_CONFIGURED = bool(EMAIL_HOST_USER and EMAIL_HOST_PASSWORD)
 
+# E-mail da equipe que recebe as solicitacoes de suporte/feedback dos usuarios.
+SUPPORT_EMAIL = config(
+    'SUPPORT_EMAIL',
+    default='carlos.silva87238@alunos.ufersa.edu.br')
+
 if EMAIL_CONFIGURED:
     EMAIL_BACKEND = config(
         'EMAIL_BACKEND',

@@ -17,3 +17,6 @@ class BugReportSerializer(serializers.ModelSerializer):
             'status',
             'criado_em'
         ]
+        # Definidos pelo servidor, nao pelo front: o usuario vem da requisicao
+        # autenticada e status/criado_em sao controlados pelo backend.
+        read_only_fields = ['usuario', 'status', 'criado_em']
