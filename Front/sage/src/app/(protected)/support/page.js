@@ -181,14 +181,14 @@ export default function Support() {
               <br />
               <strong>Exemplo de problema:</strong>
               <br />
-              "Ao acessar a página de despesas e clicar em salvar, o sistema
-              apresenta uma mensagem de erro e não registra a despesa."
+              &quot;Ao acessar a página de despesas e clicar em salvar, o sistema
+              apresenta uma mensagem de erro e não registra a despesa.&quot;
               <br />
               <br />
               <strong>Exemplo de melhoria:</strong>
               <br />
-              "Seria interessante permitir filtrar despesas por categoria para
-              facilitar a análise dos gastos mensais."
+              &quot;Seria interessante permitir filtrar despesas por categoria para
+              facilitar a análise dos gastos mensais.&quot;
             </GuideStep>
 
             <GuideStep>
@@ -197,7 +197,7 @@ export default function Support() {
                 <li>Utilize títulos curtos e objetivos.</li>
                 <li>Descreva o que aconteceu e o que era esperado acontecer.</li>
                 <li>Anexe imagens sempre que possível.</li>
-                <li>Evite descrições muito genéricas como "não funciona".</li>
+                <li>Evite descrições muito genéricas como &quot;não funciona&quot;.</li>
               </ul>
             </GuideStep>
           </GuideContainer>
