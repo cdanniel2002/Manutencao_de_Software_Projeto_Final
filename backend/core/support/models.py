@@ -52,5 +52,10 @@ class BugReport(models.Model):
         auto_now_add=True
     )
 
+    class Meta:
+        verbose_name = 'Solicitação de Suporte'
+        verbose_name_plural = 'Solicitações de Suporte'
+        ordering = ['-criado_em']
+
     def __str__(self):
         return f"[{self.tipo}] {self.titulo}"

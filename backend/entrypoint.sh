@@ -23,6 +23,9 @@ python manage.py migrate --noinput
 echo "Coletando arquivos estaticos..."
 python manage.py collectstatic --noinput
 
+echo "Garantindo usuario admin..."
+python manage.py ensure_admin || true
+
 # Se um comando foi passado (ex.: docker-compose define o gunicorn), executa ele.
 # Caso contrario (Render), sobe o gunicorn na porta fornecida em $PORT.
 if [ "$#" -gt 0 ]; then

@@ -30,7 +30,6 @@ LOCAL_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'anymail',
     'corsheaders',
     'django_filters',
     'djoser',
@@ -156,34 +155,17 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
 EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', cast=int, default=10)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-# Remetente padrao. Precisa ser um remetente verificado no Brevo.
-DEFAULT_FROM_EMAIL = config(
-    'DEFAULT_FROM_EMAIL',
-    default=EMAIL_HOST_USER or 'carlosdanniel2002@outlook.com')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
 
-# E-mail da equipe que recebe as solicitacoes de suporte/feedback dos usuarios.
-SUPPORT_EMAIL = config(
-    'SUPPORT_EMAIL',
-    default='carlosdanniel2002@outlook.com')
-
-# Selecao do backend de e-mail, em ordem de prioridade:
-# 1) Brevo via HTTP API (django-anymail) -> funciona no Render, que bloqueia SMTP.
-# 2) SMTP tradicional (Gmail/Outlook) -> util em servidor proprio sem bloqueio.
-# 3) Console (apenas imprime no log) -> nao derruba o deploy sem e-mail configurado.
-BREVO_API_KEY = config('BREVO_API_KEY', default='')
-
-if BREVO_API_KEY:
-    EMAIL_BACKEND = 'anymail.backends.brevo.EmailBackend'
-    ANYMAIL = {'BREVO_API_KEY': BREVO_API_KEY}
-    EMAIL_CONFIGURED = True
-elif EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
+# As solicitacoes de suporte sao salvas no banco e vistas pelo painel admin (nao
+# enviam e-mail). Mantemos um backend de e-mail valido apenas para o Django nao
+# quebrar: console por padrao; SMTP se houver credenciais (servidor proprio).
+if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
     EMAIL_BACKEND = config(
         'EMAIL_BACKEND',
         default='django.core.mail.backends.smtp.EmailBackend')
-    EMAIL_CONFIGURED = True
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    EMAIL_CONFIGURED = False
 
 
 REST_FRAMEWORK = {
