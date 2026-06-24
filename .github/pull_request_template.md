@@ -10,13 +10,13 @@
 
 ## Tipo de mudança
 
-- [ ] 🐛 Correção de bug
-- [ ] ✨ Nova funcionalidade
-- [ ] ♻️ Refatoração (sem mudar comportamento)
-- [ ] 🎨 Estilo / UI
-- [ ] 🧪 Testes
-- [ ] 📝 Documentação
-- [ ] 🔧 Configuração / infra / CI
+- [ ]  Correção de bug
+- [ ]  Nova funcionalidade
+- [ ]  Refatoração (sem mudar comportamento)
+- [ ]  Estilo / UI
+- [ ]  Testes
+- [ ]  Documentação
+- [ ]  Configuração / infra / CI
 
 ## Como testar
 
