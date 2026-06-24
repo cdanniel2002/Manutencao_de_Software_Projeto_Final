@@ -29,7 +29,7 @@ import {
 export default function LoginForm() {
   const router = useRouter();
 
-  const { fetchLogin, user } = useAuth();
+  const { fetchLogin, user, userData } = useAuth();
 
   // const [email, setEmail] = useState("xapab61445@pacfut.com");
   // const [password, setPassword] = useState("Teste@123");
@@ -56,10 +56,12 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
+    // Aguarda os dados do usuario para redirecionar conforme o papel:
+    // admin vai para "Solicitações"; usuario comum para o "Dashboard".
+    if (user && userData) {
+      router.push(userData.is_staff ? "/support-requests" : "/dashboard");
     }
-  }, [user, router]);
+  }, [user, userData, router]);
 
   return (
     <FormWrapper>

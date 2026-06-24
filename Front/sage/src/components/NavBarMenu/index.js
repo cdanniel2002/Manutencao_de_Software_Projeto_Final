@@ -19,6 +19,8 @@ import { NavItem, NavMenu, Sidebar, UserProfile } from "./styles";
 const NavBarMenu = ({ active }) => {
   const { userData, logout } = useAuth();
 
+  const isStaff = userData?.is_staff;
+
   const ActiveMenu = (refActive) => {
     if (active === refActive) {
       return "active";
@@ -48,43 +50,59 @@ const NavBarMenu = ({ active }) => {
       <Image src="/Logo.svg" alt="Logo" width={200} height={100} />
 
       <NavMenu>
-        <Link href="/dashboard">
-          <NavItem className={ActiveMenu("dashboard")}>
-            <Image src="/Dashboard.svg" alt="Logo" width={24} height={24} />{" "}
-            <span>Dashboard</span>
-          </NavItem>
-        </Link>
-        <Link href="/profile">
-          <NavItem className={ActiveMenu("profile")}>
-            <Image src="/User.svg" alt="Logo" width={24} height={24} />{" "}
-            <span>Perfil</span>
-          </NavItem>
-        </Link>
-        <Link href="/outlay">
-          <NavItem className={ActiveMenu("outlay")}>
-            <Image src="/Money.svg" alt="Logo" width={24} height={24} />{" "}
-            <span>Despesas</span>
-          </NavItem>
-        </Link>
-        <Link href="/categories">
-          <NavItem className={ActiveMenu("categories")}>
-            <Image src="/Task.svg" alt="Logo" width={24} height={24} />{" "}
-            <span>Categorias</span>
-          </NavItem>
-        </Link>
-        <Link href="/support">
-          <NavItem className={ActiveMenu("support")}>
-            <Image src="/Support.svg" alt="Suporte" width={24} height={24} />
-            <span>Suporte</span>
-          </NavItem>
-        </Link>
-        {userData?.is_staff && (
-          <Link href="/support-requests">
-            <NavItem className={ActiveMenu("support-requests")}>
-              <Image src="/Support.svg" alt="Solicitações" width={24} height={24} />
-              <span>Solicitações</span>
-            </NavItem>
-          </Link>
+        {isStaff ? (
+          <>
+            <Link href="/profile">
+              <NavItem className={ActiveMenu("profile")}>
+                <Image src="/User.svg" alt="Perfil" width={24} height={24} />{" "}
+                <span>Perfil</span>
+              </NavItem>
+            </Link>
+            <Link href="/support-requests">
+              <NavItem className={ActiveMenu("support-requests")}>
+                <Image
+                  src="/Support.svg"
+                  alt="Solicitações"
+                  width={24}
+                  height={24}
+                />
+                <span>Solicitações</span>
+              </NavItem>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href="/dashboard">
+              <NavItem className={ActiveMenu("dashboard")}>
+                <Image src="/Dashboard.svg" alt="Logo" width={24} height={24} />{" "}
+                <span>Dashboard</span>
+              </NavItem>
+            </Link>
+            <Link href="/profile">
+              <NavItem className={ActiveMenu("profile")}>
+                <Image src="/User.svg" alt="Logo" width={24} height={24} />{" "}
+                <span>Perfil</span>
+              </NavItem>
+            </Link>
+            <Link href="/outlay">
+              <NavItem className={ActiveMenu("outlay")}>
+                <Image src="/Money.svg" alt="Logo" width={24} height={24} />{" "}
+                <span>Despesas</span>
+              </NavItem>
+            </Link>
+            <Link href="/categories">
+              <NavItem className={ActiveMenu("categories")}>
+                <Image src="/Task.svg" alt="Logo" width={24} height={24} />{" "}
+                <span>Categorias</span>
+              </NavItem>
+            </Link>
+            <Link href="/support">
+              <NavItem className={ActiveMenu("support")}>
+                <Image src="/Support.svg" alt="Suporte" width={24} height={24} />
+                <span>Suporte</span>
+              </NavItem>
+            </Link>
+          </>
         )}
       </NavMenu>
 
