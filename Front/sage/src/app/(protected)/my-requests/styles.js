@@ -15,6 +15,7 @@ const colors = {
 const statusColors = {
   ABERTO: { color: "#0a5b86", background: "#d4ecf7" },
   ANALISE: { color: "#8a4b00", background: "#ffe8cc" },
+  ANDAMENTO: { color: "#6a4bba", background: "#e7ddf7" },
   CORRIGIDO: { color: "#1c6b2c", background: "#d7f0dd" },
   FECHADO: { color: "#495057", background: "#e9ecef" },
 };

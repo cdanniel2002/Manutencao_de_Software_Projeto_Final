@@ -10,10 +10,11 @@ class BugReport(models.Model):
     ]
 
     STATUS_CHOICES = [
-        ('ABERTO', 'Aberto'),
+        ('ABERTO', 'Aberta'),
         ('ANALISE', 'Em análise'),
+        ('ANDAMENTO', 'Em andamento'),
         ('CORRIGIDO', 'Corrigido'),
-        ('FECHADO', 'Fechado'),
+        ('FECHADO', 'Fechada'),
     ]
 
     usuario = models.ForeignKey(

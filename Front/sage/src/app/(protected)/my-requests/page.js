@@ -31,10 +31,11 @@ import {
 } from "./styles";
 
 const STATUS_LABELS = {
-  ABERTO: "Aberto",
+  ABERTO: "Aberta",
   ANALISE: "Em análise",
+  ANDAMENTO: "Em andamento",
   CORRIGIDO: "Corrigido",
-  FECHADO: "Fechado",
+  FECHADO: "Fechada",
 };
 
 export default function MyRequests() {
