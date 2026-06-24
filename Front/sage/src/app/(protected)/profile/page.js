@@ -115,6 +115,7 @@ export default function Profile() {
               dataOfBirthProp={userData?.date_of_birth}
               nameProp={userData?.name}
               cpfProp={userData?.cpf}
+              isStaff={userData?.is_staff}
             >
               <Button variant="primary">Editar perfil</Button>
             </EditProfileModal>
@@ -131,11 +132,15 @@ export default function Profile() {
             label="Telefone"
             value={phoneMask(userData?.phone_number)}
           />
-          <DetailItem label="CPF" value={cpfMask(userData?.cpf)} />
-          <DetailItem
-            label="Renda mensal"
-            value={`R$ ${moneyMask(userData?.income)}`}
-          />
+          {!userData?.is_staff && (
+            <DetailItem label="CPF" value={cpfMask(userData?.cpf)} />
+          )}
+          {!userData?.is_staff && (
+            <DetailItem
+              label="Renda mensal"
+              value={`R$ ${moneyMask(userData?.income)}`}
+            />
+          )}
           <DetailItem
             label="Data de nascimento"
             value={formatDate(userData?.date_of_birth)}

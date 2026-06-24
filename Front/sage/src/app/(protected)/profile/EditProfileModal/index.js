@@ -42,6 +42,7 @@ export const EditProfileModal = ({
   dataOfBirthProp,
   nameProp,
   cpfProp,
+  isStaff,
 }) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -70,8 +71,10 @@ export const EditProfileModal = ({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!name || !money) {
-      toast.error("Nome e renda mensal são obrigatórios.");
+    if (!name || (!isStaff && !money)) {
+      toast.error(
+        isStaff ? "Nome é obrigatório." : "Nome e renda mensal são obrigatórios."
+      );
       return;
     }
 
@@ -96,10 +99,13 @@ export const EditProfileModal = ({
       const submissionData = {
         name,
         email,
-        cpf: cleanCpf || null,
+        // Admin nao edita CPF/renda: preserva os valores atuais.
+        cpf: isStaff ? cpfProp || null : cleanCpf || null,
         date_of_birth: dateOfBirth ? formatDate3(dateOfBirth) : null,
         phone: phone ? phone.replace(/\D/g, "") : null,
-        money: money.replace(/[R$\s.]/g, "").replace(",", "."),
+        money: isStaff
+          ? moneyProp || "0"
+          : money.replace(/[R$\s.]/g, "").replace(",", "."),
       };
       onSubmit(submissionData);
       setOpen(false);
@@ -142,16 +148,18 @@ export const EditProfileModal = ({
               <Input id="email" type="email" value={email} disabled />
             </div>
 
-            <div>
-              <Label htmlFor="cpf">CPF</Label>
-              <Input
-                id="cpf"
-                value={cpf}
-                onChange={(e) => setCpf(cpfMask(e.target.value))}
-                placeholder="999.999.999-99"
-                maxLength={14}
-              />
-            </div>
+            {!isStaff && (
+              <div>
+                <Label htmlFor="cpf">CPF</Label>
+                <Input
+                  id="cpf"
+                  value={cpf}
+                  onChange={(e) => setCpf(cpfMask(e.target.value))}
+                  placeholder="999.999.999-99"
+                  maxLength={14}
+                />
+              </div>
+            )}
 
             <div>
               <Label htmlFor="dateOfBirth">Data de nascimento</Label>
@@ -174,18 +182,20 @@ export const EditProfileModal = ({
               />
             </div>
 
-            <div>
-              <Label htmlFor="money">Renda mensal</Label>
-              <Input
-                id="money"
-                value={money}
-                onChange={(e) => {
-                  const maskedValue = moneyMask(e.target.value);
-                  setMoney(maskedValue ? `R$ ${maskedValue}` : "");
-                }}
-                placeholder="R$ 1.234,56"
-              />
-            </div>
+            {!isStaff && (
+              <div>
+                <Label htmlFor="money">Renda mensal</Label>
+                <Input
+                  id="money"
+                  value={money}
+                  onChange={(e) => {
+                    const maskedValue = moneyMask(e.target.value);
+                    setMoney(maskedValue ? `R$ ${maskedValue}` : "");
+                  }}
+                  placeholder="R$ 1.234,56"
+                />
+              </div>
+            )}
 
             <ButtonGroup>
               <CancelButton
