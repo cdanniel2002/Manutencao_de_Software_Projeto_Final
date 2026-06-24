@@ -126,6 +126,7 @@ class PeriodSerializerTestCase(APITestCase):
         self.authenticate(self.user)
         period = Period.objects.get_or_create(user=self.user)[0]
         expected_fields = {'id', 'expenses', 'monthly_expense',
+                           'expenses_to_pay', 'expenses_paid',
                            'balance', 'user_balance', 'month'}
         response = self.client.get(
             reverse(self.period_detail_url, kwargs={'pk': period.id}))
