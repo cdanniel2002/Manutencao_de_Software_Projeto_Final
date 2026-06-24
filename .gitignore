@@ -1,3 +1,7 @@
 # firebase studio
 .vscode/
 .idx/
+
+# python
+__pycache__/
+*.pyc
