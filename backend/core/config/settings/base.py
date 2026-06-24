@@ -227,4 +227,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'USERNAME_RESET_CONFIRM_RETYPE': True,
     'TOKEN_MODEL': None,
+    'SERIALIZERS': {
+        'current_user': 'users.api.serializers.UserSerializer',
+        'user': 'users.api.serializers.UserSerializer',
+    },
 }

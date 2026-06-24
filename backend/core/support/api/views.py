@@ -19,6 +19,6 @@ class BugReportViewSet(viewsets.ModelViewSet):
         return BugReport.objects.filter(usuario=user)
 
     def perform_create(self, serializer):
-        # Salva a solicitacao vinculada ao usuario autenticado. Sem envio de
-        # e-mail: as solicitacoes ficam no banco e sao vistas no painel admin.
-        serializer.save(usuario=self.request.user)
+        # Salva a solicitacao vinculada ao usuario autenticado, sempre com status
+        # inicial 'ABERTO' (o usuario nao define status; so o admin altera depois).
+        serializer.save(usuario=self.request.user, status='ABERTO')

@@ -32,6 +32,8 @@ export const AuthProvider = ({ children }) => {
   const [outlayForms, setOutlayForms] = useState(null);
   const [outlayFormsCurrent, setOutlayFormsCurrent] = useState(null);
   const [outlayEvolution, setOutlayEvolution] = useState(null);
+  const [bugReports, setBugReports] = useState([]);
+  const [loadingBugReports, setLoadingBugReports] = useState(false);
 
   const logout = useCallback(() => {
     setUser(null);
@@ -396,8 +398,37 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoadingAuth(false));
   }, []);
 
+  // -------- SUPPORT (ADMIN) --------
+  const getBugReports = useCallback(() => {
+    setLoadingBugReports(true);
+    api
+      .get("bug-reports/")
+      .then((resp) => setBugReports(resp.data.results || resp.data || []))
+      .catch((error) => handleApiError(error, "Erro ao buscar solicitações."))
+      .finally(() => setLoadingBugReports(false));
+  }, []);
+
+  const updateBugReportStatus = useCallback(
+    (id, status) => {
+      setLoadingBugReports(true);
+      api
+        .patch(`bug-reports/${id}/`, { status })
+        .then(() => {
+          getBugReports();
+          toast.success("Status atualizado com sucesso!");
+        })
+        .catch((error) => handleApiError(error, "Erro ao atualizar o status."))
+        .finally(() => setLoadingBugReports(false));
+    },
+    [getBugReports]
+  );
+
   const isAnyLoading =
-    loadingUser || loadingOutlays || loadingCategories || loadingAuth;
+    loadingUser ||
+    loadingOutlays ||
+    loadingCategories ||
+    loadingAuth ||
+    loadingBugReports;
 
   return (
     <AuthContext.Provider
@@ -435,6 +466,10 @@ export const AuthProvider = ({ children }) => {
         loadingCategories,
         loadingAuth,
         exportPdfOutlay,
+        bugReports,
+        getBugReports,
+        updateBugReportStatus,
+        loadingBugReports,
       }}
     >
       {isAnyLoading && <LoadingView />}

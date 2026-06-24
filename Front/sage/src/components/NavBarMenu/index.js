@@ -78,6 +78,14 @@ const NavBarMenu = ({ active }) => {
             <span>Suporte</span>
           </NavItem>
         </Link>
+        {userData?.is_staff && (
+          <Link href="/support-requests">
+            <NavItem className={ActiveMenu("support-requests")}>
+              <Image src="/Support.svg" alt="Solicitações" width={24} height={24} />
+              <span>Solicitações</span>
+            </NavItem>
+          </Link>
+        )}
       </NavMenu>
 
       <UserProfile>
